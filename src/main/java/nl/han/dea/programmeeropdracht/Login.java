@@ -1,18 +1,34 @@
 package nl.han.dea.programmeeropdracht;
 
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import nl.han.dea.programmeeropdracht.dto.LoginRequest;
+import nl.han.dea.programmeeropdracht.dto.LoginResponse;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 
 @Path("/")
 public class Login {
 
 
-    @GET
-    @Produces("text/html")
-    public String helloWorld(){
-        return "Hello World";
+    @POST
+    @Path("login")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response login(LoginRequest request){
+
+        if("piet".equals(request.getUser())){
+            return Response.status(401).build();
+        }
+
+        String token = "314156yhrsfad-a";
+        String user = "Lars";
+
+        LoginResponse response = new LoginResponse();
+        response.setToken(token);
+        response.setUser(user);
+
+        return Response.ok(response).build();
     }
 
 }
