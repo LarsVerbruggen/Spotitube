@@ -8,7 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 @Path("/")
-public class Login {
+public class LoginController {
 
 
     @POST
@@ -16,11 +16,6 @@ public class Login {
     @Consumes("application/json")
     @Produces("application/json")
     public Response login(LoginRequest request){
-
-        if("piet".equals(request.getUser())){
-            return Response.status(401).build();
-        }
-
         String token = "314156yhrsfad-a";
         String user = "Lars";
 
