@@ -44,10 +44,11 @@ public class PlaylistsController {
     @Produces("application/json")
     @Consumes("application/json")
     public Response getTracksOfPlaylist(@QueryParam("token") String token, @PathParam("id") int id){
-        
 
 
-        return Response.ok().entity(response).build();
+
+        // return Response.ok().entity(response).build();
+        return Response.status(502).build();
     }
 
 }
