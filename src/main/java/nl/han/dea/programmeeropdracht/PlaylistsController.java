@@ -2,6 +2,7 @@ package nl.han.dea.programmeeropdracht;
 
 
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
+import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -13,20 +14,19 @@ public class PlaylistsController {
 
     PlaylistsResponse response = new PlaylistsResponse();
 
+    Playlist deathMetal = new Playlist();
+    Playlist pop = new Playlist();
+
     @GET
     @Produces("application/json")
     @Consumes("application/json")
     public Response getPlaylists(@QueryParam("token") String token){
 
-        Playlist deathMetal = new Playlist();
-        Playlist pop = new Playlist();
 
         deathMetal.setId(1);
         deathMetal.setName("Death Metal");
         deathMetal.setOwner(true);
         deathMetal.setTracks(new ArrayList<>());
-
-
 
         pop.setId(2);
         pop.setName("Pop");
@@ -47,8 +47,7 @@ public class PlaylistsController {
     @Produces("application/json")
     @Consumes("application/json")
     public Response getTracksOfPlaylist(@QueryParam("token") String token, @PathParam("id") int id){
-
-        Playlist playlist = response.getPlaylists().get(id);
+        Playlist playlist;
 
         ArrayList<Track> tracks = new ArrayList<>();
         Track track1 = new Track();
@@ -72,7 +71,22 @@ public class PlaylistsController {
         tracks.add(track1);
         tracks.add(track2);
 
-        playlist.setTracks(tracks);
+        deathMetal.setTracks(tracks);
+
+
+        switch(id){
+            case 1:
+                playlist = deathMetal;
+                break;
+            case 2:
+                playlist = pop;
+                break;
+            default: playlist = deathMetal;
+        }
+
+        TrackResponse response = new TrackResponse();
+        response.setTracks(playlist.getTracks());
+
 
 
         return Response.ok().entity(response).build();

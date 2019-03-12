@@ -5,3 +5,5 @@
 
 
 This project is being made for the programming assessment "Spotitube" for the Course DEA at the HAN.
+More information about this project is found on: https://github.com/HANICA-DEA/spotitube
+
