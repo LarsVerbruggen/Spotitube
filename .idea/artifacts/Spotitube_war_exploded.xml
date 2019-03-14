@@ -15,7 +15,7 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.airhacks:jaxrs-cors:0.0.2" />
-          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.34" />
+          <element id="library" level="project" name="Maven: com.microsoft.sqlserver:mssql-jdbc:7.2.1.jre11" />
         </element>
       </element>
       <element id="directory" name="META-INF">

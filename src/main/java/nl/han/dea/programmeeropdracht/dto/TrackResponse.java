@@ -14,4 +14,4 @@ public class TrackResponse {
     public void setTracks(ArrayList<Track> tracks) {
         this.tracks = tracks;
     }
-}
+    }

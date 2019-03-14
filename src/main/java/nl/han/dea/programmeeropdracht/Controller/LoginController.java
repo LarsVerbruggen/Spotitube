@@ -1,6 +1,7 @@
 package nl.han.dea.programmeeropdracht.Controller;
 
 
+import nl.han.dea.programmeeropdracht.Database.DatabaseConnection;
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;
 import nl.han.dea.programmeeropdracht.dto.LoginResponse;
 
@@ -9,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/")
 public class LoginController {
+    DatabaseConnection dbcon = new DatabaseConnection();
 
 
     @POST
@@ -16,6 +18,7 @@ public class LoginController {
     @Consumes("application/json")
     @Produces("application/json")
     public Response login(LoginRequest request){
+        dbcon.connectDatabase();
         String token = "314156yhrsfad-a";
         String user = "Lars";
 

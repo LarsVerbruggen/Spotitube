@@ -51,7 +51,21 @@ public class PlaylistsController {
     public Response getTracksOfPlaylist(@QueryParam("token") String token, @PathParam("id") int id){
         Playlist playlist;
 
+
+        ArrayList<Track> popTracks = new ArrayList<>();
+//        Track popTrack = new Track();
+//        popTrack.setId(3);
+//        popTrack.setTitle("Chop Suey");
+//        popTrack.setPerformer("System of a down");
+//        popTrack.setAlbum("Toxicity!");
+//        popTrack.setDuration(210);
+//        popTrack.setPlaycount(500);
+//        popTrack.setOfflineAvailable(true);
+//        popTracks.add(popTrack);
+        pop.setTracks(popTracks);
+
         ArrayList<Track> tracks = new ArrayList<>();
+
         Track track1 = new Track();
         track1.setId(1);
         track1.setTitle("Song for Someone");
@@ -86,12 +100,12 @@ public class PlaylistsController {
             default: playlist = deathMetal;
         }
 
-        TrackResponse response = new TrackResponse();
-        response.setTracks(playlist.getTracks());
+        TrackResponse response1 = new TrackResponse();
+        response1.setTracks(playlist.getTracks());
 
 
 
-        return Response.ok().entity(response).build();
+        return Response.ok().entity(response1).build();
        // return Response.status(502).build();
     }
 
