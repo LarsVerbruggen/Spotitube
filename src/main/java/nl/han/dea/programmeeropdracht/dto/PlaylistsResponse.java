@@ -27,7 +27,6 @@ public class PlaylistsResponse {
     public List<Playlist> getPlaylists(){
         return playlists;
     }
-
 }
 
 
