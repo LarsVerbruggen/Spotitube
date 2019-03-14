@@ -1,4 +1,4 @@
-package nl.han.dea.programmeeropdracht;
+package nl.han.dea.programmeeropdracht.Controller;
 
 
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;

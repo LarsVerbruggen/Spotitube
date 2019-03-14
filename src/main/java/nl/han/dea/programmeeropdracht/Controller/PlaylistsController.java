@@ -1,6 +1,8 @@
-package nl.han.dea.programmeeropdracht;
+package nl.han.dea.programmeeropdracht.Controller;
 
 
+import nl.han.dea.programmeeropdracht.Playlist;
+import nl.han.dea.programmeeropdracht.Track;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
 
 import javax.ws.rs.*;
