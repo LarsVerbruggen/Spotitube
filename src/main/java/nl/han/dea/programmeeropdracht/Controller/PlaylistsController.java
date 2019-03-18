@@ -1,6 +1,6 @@
 package nl.han.dea.programmeeropdracht.Controller;
 
-
+import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
 import nl.han.dea.programmeeropdracht.Playlist;
 import nl.han.dea.programmeeropdracht.Track;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
@@ -8,11 +8,13 @@ import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Path("playlists")
 public class PlaylistsController {
-
+    private PlaylistDAO playlistDAO = new PlaylistDAO();
 
     PlaylistsResponse response = new PlaylistsResponse();
 
@@ -24,22 +26,23 @@ public class PlaylistsController {
     @Consumes("application/json")
     public Response getPlaylists(@QueryParam("token") String token){
 
+        ResultSet result = playlistDAO.getPlaylists(token);
 
-        deathMetal.setId(1);
-        deathMetal.setName("Death Metal");
-        deathMetal.setOwner(true);
-        deathMetal.setTracks(new ArrayList<>());
+        try{
+            Playlist resultSet;
+            while(result.next()){
+                resultSet = new Playlist();
+                resultSet.setId(result.getInt("PLAYLIST_ID"));
+                resultSet.setOwner(result.getBoolean("OWNER"));
+                resultSet.setName(result.getString("PLAYLIST_NAME"));
+                resultSet.setTracks(new ArrayList<>());
+                response.addPlaylist(resultSet);
+            }
+        }catch (SQLException e){
+            System.out.println("Error with database: " + e);
+        }
 
-        pop.setId(2);
-        pop.setName("Pop");
-        pop.setOwner(false);
-        pop.setTracks(new ArrayList<>());
-
-        response.addPlaylist(deathMetal);
-        response.addPlaylist(pop);
         response.setLength(123445);
-
-
         return Response.ok().entity(response).build();
     }
 

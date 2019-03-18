@@ -13,7 +13,6 @@ import java.sql.SQLException;
 
 @Path("/")
 public class LoginController {
-    DatabaseConnection dbcon = new DatabaseConnection();
     private LoginDAO loginDAO = new LoginDAO();
 
 
@@ -34,10 +33,6 @@ public class LoginController {
         } catch (SQLException e){
             System.out.println("Error getting results: " + e);
         }
-
-
-
-
 
         return Response.ok(response).build();
     }
