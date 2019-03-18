@@ -28,21 +28,3 @@ public class PlaylistsResponse {
         return playlists;
     }
 }
-
-
-//    {
-//        "playlists" :[
-//        {
-//            "id"    : 1,
-//                "name"  : "Death metal",
-//                "owner" : true,
-//                "tracks": []
-//        },
-//        {
-//            "id"    : 2,
-//                "name"  : "Pop",
-//                "owner" : false,
-//                "tracks": []
-//        }
-//              ],
-//        "length"  :123445}

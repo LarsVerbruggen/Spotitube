@@ -1,6 +1,7 @@
 package nl.han.dea.programmeeropdracht.Controller;
 
 import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
+import nl.han.dea.programmeeropdracht.Database.TrackDAO;
 import nl.han.dea.programmeeropdracht.Playlist;
 import nl.han.dea.programmeeropdracht.Track;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
@@ -15,11 +16,9 @@ import java.util.ArrayList;
 @Path("playlists")
 public class PlaylistsController {
     private PlaylistDAO playlistDAO = new PlaylistDAO();
+    private TrackDAO trackDAO = new TrackDAO();
 
     PlaylistsResponse response = new PlaylistsResponse();
-
-    Playlist deathMetal = new Playlist();
-    Playlist pop = new Playlist();
 
     @GET
     @Produces("application/json")
@@ -27,15 +26,18 @@ public class PlaylistsController {
     public Response getPlaylists(@QueryParam("token") String token){
 
         ResultSet result = playlistDAO.getPlaylists(token);
-
+        Playlist resultSet;
+        int playlist_id;
         try{
-            Playlist resultSet;
             while(result.next()){
                 resultSet = new Playlist();
-                resultSet.setId(result.getInt("PLAYLIST_ID"));
+                playlist_id = result.getInt("PLAYLIST_ID");
+                resultSet.setId(playlist_id);
                 resultSet.setOwner(result.getBoolean("OWNER"));
                 resultSet.setName(result.getString("PLAYLIST_NAME"));
+
                 resultSet.setTracks(new ArrayList<>());
+
                 response.addPlaylist(resultSet);
             }
         }catch (SQLException e){
@@ -52,64 +54,34 @@ public class PlaylistsController {
     @Produces("application/json")
     @Consumes("application/json")
     public Response getTracksOfPlaylist(@QueryParam("token") String token, @PathParam("id") int id){
-        Playlist playlist;
 
-
-        ArrayList<Track> popTracks = new ArrayList<>();
-//        Track popTrack = new Track();
-//        popTrack.setId(3);
-//        popTrack.setTitle("Chop Suey");
-//        popTrack.setPerformer("System of a down");
-//        popTrack.setAlbum("Toxicity!");
-//        popTrack.setDuration(210);
-//        popTrack.setPlaycount(500);
-//        popTrack.setOfflineAvailable(true);
-//        popTracks.add(popTrack);
-        pop.setTracks(popTracks);
-
+        ResultSet trackSet = trackDAO.getTracksFromPlaylist(id);
+        Track track;
         ArrayList<Track> tracks = new ArrayList<>();
 
-        Track track1 = new Track();
-        track1.setId(1);
-        track1.setTitle("Song for Someone");
-        track1.setPerformer("The Frames");
-        track1.setDuration(350);
-        track1.setAlbum("The cost");
-        track1.setOfflineAvailable(false);
-
-        Track track2 = new Track();
-        track2.setId(2);
-        track2.setTitle("The cost");
-        track2.setPerformer("The Frames");
-        track2.setDuration(423);
-        track2.setPlaycount(37);
-        track2.setPublicationDate("10-01-2005");
-        track2.setDescription("Title song from the Album The Cost");
-        track2.setOfflineAvailable(true);
-
-        tracks.add(track1);
-        tracks.add(track2);
-
-        deathMetal.setTracks(tracks);
-
-
-        switch(id){
-            case 1:
-                playlist = deathMetal;
-                break;
-            case 2:
-                playlist = pop;
-                break;
-            default: playlist = deathMetal;
+        try{
+            while (trackSet.next()){
+                track = new Track();
+                track.setId(trackSet.getInt("TRACK_ID"));
+                track.setTitle(trackSet.getString("TITLE"));
+                track.setPerformer(trackSet.getString("PERFORMER"));
+                track.setDuration(trackSet.getInt("DURATION"));
+                track.setAlbum(trackSet.getString("ALBUM"));
+                track.setPublicationDate(trackSet.getString("DESCRIPTION"));
+                track.setOfflineAvailable(trackSet.getBoolean("OFFLINEAVAILABLE"));
+                tracks.add(track);
+            }
+        } catch (SQLException e){
+            System.out.println("Error with getting track details from playlist: " + e);
         }
 
-        TrackResponse response1 = new TrackResponse();
-        response1.setTracks(playlist.getTracks());
+
+        TrackResponse trackResponse = new TrackResponse();
+        trackResponse.setTracks(tracks);
 
 
 
-        return Response.ok().entity(response1).build();
-       // return Response.status(502).build();
+        return Response.ok().entity(trackResponse).build();
     }
 
 }

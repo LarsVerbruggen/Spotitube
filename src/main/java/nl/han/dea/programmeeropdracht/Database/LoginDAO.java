@@ -15,7 +15,7 @@ public class LoginDAO {
         ResultSet result = null;
 
         try{
-            PreparedStatement st = dbCon.dbCon.prepareStatement("SELECT * FROM [USER] WHERE USER_NAME = ?");
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM [USER] WHERE USER_NAME = ?");
             st.setString(1, userName);
             result = st.executeQuery();
         }catch (SQLException e){

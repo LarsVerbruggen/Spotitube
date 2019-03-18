@@ -4,7 +4,7 @@ package nl.han.dea.programmeeropdracht.Database;
 import java.sql.*;
 
 public class DatabaseConnection{
-    Connection dbCon = null;
+    private Connection dbCon = null;
 
     public void connectDatabase(){
         try {
@@ -18,5 +18,13 @@ public class DatabaseConnection{
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
+    }
+
+    public Connection getDbCon() {
+        return dbCon;
+    }
+
+    public void setDbCon(Connection dbCon) {
+        this.dbCon = dbCon;
     }
 }

@@ -18,7 +18,7 @@ public class PlaylistDAO {
         ResultSet result = null;
 
         try{
-            PreparedStatement st = dbCon.dbCon.prepareStatement("SELECT * FROM PLAYLIST WHERE USER_NAME = ?");
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM PLAYLIST WHERE USER_NAME = ?");
             st.setString(1, getUserByToken(token));
             result = st.executeQuery();
         }catch (SQLException e){
@@ -32,7 +32,7 @@ public class PlaylistDAO {
         String result = null;
 
         try{
-            PreparedStatement st = dbCon.dbCon.prepareStatement("SELECT USER_NAME FROM [USER] WHERE TOKEN = ?");
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT USER_NAME FROM [USER] WHERE TOKEN = ?");
             st.setString(1, token);
             resultSet = st.executeQuery();
         }catch (SQLException e){
