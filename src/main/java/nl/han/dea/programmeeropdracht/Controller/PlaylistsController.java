@@ -25,27 +25,45 @@ public class PlaylistsController {
     @Consumes("application/json")
     public Response getPlaylists(@QueryParam("token") String token){
 
+        int length = 0;
         ResultSet result = playlistDAO.getPlaylists(token);
-        Playlist resultSet;
+        Playlist playlist;
         int playlist_id;
         try{
             while(result.next()){
-                resultSet = new Playlist();
+                playlist = new Playlist();
                 playlist_id = result.getInt("PLAYLIST_ID");
-                resultSet.setId(playlist_id);
-                resultSet.setOwner(result.getBoolean("OWNER"));
-                resultSet.setName(result.getString("PLAYLIST_NAME"));
+                playlist.setId(playlist_id);
+                playlist.setOwner(result.getBoolean("OWNER"));
+                playlist.setName(result.getString("PLAYLIST_NAME"));
 
-                resultSet.setTracks(new ArrayList<>());
+                playlist.setTracks(new ArrayList<>());
 
-                response.addPlaylist(resultSet);
+                length = length + getLengthOfPlayList(playlist_id);
+
+                response.addPlaylist(playlist);
             }
         }catch (SQLException e){
             System.out.println("Error with database: " + e);
         }
 
-        response.setLength(123445);
+        response.setLength(length);
         return Response.ok().entity(response).build();
+    }
+
+    private int getLengthOfPlayList(int playlist_id) {
+        int length = 0;
+        ResultSet trackSet = trackDAO.getTracksFromPlaylist(playlist_id);
+
+        try{
+            while(trackSet.next()){
+                length = length + trackSet.getInt("DURATION");
+            }
+        } catch (SQLException e){
+            System.out.println("Error with getting length of playlist: " + e);
+        }
+
+        return length;
     }
 
 
