@@ -23,14 +23,14 @@ public class PlaylistsController {
     @GET
     @Produces("application/json")
     @Consumes("application/json")
-    public Response getPlaylists(@QueryParam("token") String token){
+    public Response getPlaylists(@QueryParam("token") String token) {
 
         int length = 0;
         ResultSet result = playlistDAO.getPlaylists(token);
         Playlist playlist;
         int playlist_id;
-        try{
-            while(result.next()){
+        try {
+            while (result.next()) {
                 playlist = new Playlist();
                 playlist_id = result.getInt("PLAYLIST_ID");
                 playlist.setId(playlist_id);
@@ -43,7 +43,7 @@ public class PlaylistsController {
 
                 response.addPlaylist(playlist);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error with database: " + e);
         }
 
@@ -54,31 +54,27 @@ public class PlaylistsController {
     private int getLengthOfPlayList(int playlist_id) {
         int length = 0;
         ResultSet trackSet = trackDAO.getTracksFromPlaylist(playlist_id);
-
-        try{
-            while(trackSet.next()){
+        try {
+            while (trackSet.next()) {
                 length = length + trackSet.getInt("DURATION");
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error with getting length of playlist: " + e);
         }
-
         return length;
     }
-
 
     @Path("/{id}/tracks")
     @GET
     @Produces("application/json")
     @Consumes("application/json")
-    public Response getTracksOfPlaylist(@QueryParam("token") String token, @PathParam("id") int id){
-
+    public Response getTracksOfPlaylist(@QueryParam("token") String token, @PathParam("id") int id) {
         ResultSet trackSet = trackDAO.getTracksFromPlaylist(id);
         Track track;
         ArrayList<Track> tracks = new ArrayList<>();
 
-        try{
-            while (trackSet.next()){
+        try {
+            while (trackSet.next()) {
                 track = new Track();
                 track.setId(trackSet.getInt("TRACK_ID"));
                 track.setTitle(trackSet.getString("TITLE"));
@@ -89,16 +85,13 @@ public class PlaylistsController {
                 track.setOfflineAvailable(trackSet.getBoolean("OFFLINEAVAILABLE"));
                 tracks.add(track);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error with getting track details from playlist: " + e);
         }
 
-
         TrackResponse trackResponse = new TrackResponse();
         trackResponse.setTracks(tracks);
-
-
-
+        
         return Response.ok().entity(trackResponse).build();
     }
 

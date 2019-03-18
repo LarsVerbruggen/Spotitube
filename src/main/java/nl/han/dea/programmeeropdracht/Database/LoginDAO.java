@@ -6,26 +6,24 @@ public class LoginDAO {
     private DatabaseConnection dbCon;
 
 
-    public LoginDAO(){
+    public LoginDAO() {
         dbCon = new DatabaseConnection();
         dbCon.connectDatabase();
     }
 
-    public ResultSet getLoginCredentials(String userName){
+    public ResultSet getLoginCredentials(String userName) {
         ResultSet result = null;
 
-        try{
+        try {
             PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM [USER] WHERE USER_NAME = ?");
             st.setString(1, userName);
             result = st.executeQuery();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error executing Query:" + e);
         }
 
         return result;
     }
-
-
 
 
 }

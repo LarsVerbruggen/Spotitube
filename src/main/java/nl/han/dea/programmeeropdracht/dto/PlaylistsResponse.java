@@ -11,12 +11,11 @@ public class PlaylistsResponse {
     private int length;
 
 
-
-    public void addPlaylist(Playlist list){
-            playlists.add(list);
+    public void addPlaylist(Playlist list) {
+        playlists.add(list);
     }
 
-    public void setLength(int i){
+    public void setLength(int i) {
         length = i;
     }
 
@@ -24,7 +23,7 @@ public class PlaylistsResponse {
         return length;
     }
 
-    public List<Playlist> getPlaylists(){
+    public List<Playlist> getPlaylists() {
         return playlists;
     }
 }

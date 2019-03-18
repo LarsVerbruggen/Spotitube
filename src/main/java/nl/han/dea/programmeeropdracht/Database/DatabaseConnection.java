@@ -3,13 +3,13 @@ package nl.han.dea.programmeeropdracht.Database;
 
 import java.sql.*;
 
-public class DatabaseConnection{
+public class DatabaseConnection {
     private Connection dbCon = null;
 
-    public void connectDatabase(){
+    public void connectDatabase() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        }catch(ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 

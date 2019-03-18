@@ -20,17 +20,18 @@ public class LoginController {
     @Path("login")
     @Consumes("application/json")
     @Produces("application/json")
-    public Response login(LoginRequest request){
+    public Response login(LoginRequest request) {
         ResultSet result = loginDAO.getLoginCredentials(request.getUser());
         LoginResponse response = new LoginResponse();
 
-        try{
-            while (result.next()){
-                if(request.getPassword().equals(result.getString("PASSWORD")))
+        try {
+            while (result.next()) {
+                if (request.getPassword().equals(result.getString("PASSWORD"))) {
                     response.setUser(result.getString("USER_NAME"));
                     response.setToken(result.getString("TOKEN"));
+                }
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error getting results: " + e);
         }
 
