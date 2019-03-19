@@ -23,8 +23,4 @@ public class DatabaseConnection {
     public Connection getDbCon() {
         return dbCon;
     }
-
-    public void setDbCon(Connection dbCon) {
-        this.dbCon = dbCon;
-    }
 }

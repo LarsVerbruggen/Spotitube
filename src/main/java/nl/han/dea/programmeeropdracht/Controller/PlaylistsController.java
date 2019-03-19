@@ -7,6 +7,7 @@ import nl.han.dea.programmeeropdracht.Track;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.sql.ResultSet;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 
 @Path("playlists")
 public class PlaylistsController {
-    private PlaylistDAO playlistDAO = new PlaylistDAO();
-    private TrackDAO trackDAO = new TrackDAO();
+    private PlaylistDAO playlistDAO;
+    private TrackDAO trackDAO;
 
     PlaylistsResponse response = new PlaylistsResponse();
 
@@ -91,8 +92,18 @@ public class PlaylistsController {
 
         TrackResponse trackResponse = new TrackResponse();
         trackResponse.setTracks(tracks);
-        
+
         return Response.ok().entity(trackResponse).build();
+    }
+
+    @Inject
+    public void setTrackDAO(TrackDAO trackDAO){
+        this.trackDAO = trackDAO;
+    }
+
+    @Inject
+    public void setPlaylistDAO(PlaylistDAO playlistDAO){
+        this.playlistDAO = playlistDAO;
     }
 
 }

@@ -1,5 +1,8 @@
 package nl.han.dea.programmeeropdracht.Database;
 
+import nl.han.dea.programmeeropdracht.model.UserModel;
+
+import javax.ws.rs.core.Response;
 import java.sql.*;
 
 public class LoginDAO {
@@ -11,18 +14,31 @@ public class LoginDAO {
         dbCon.connectDatabase();
     }
 
-    public ResultSet getLoginCredentials(String userName) {
+    public UserModel getLoginCredentials(String userName, String password) {
         ResultSet result = null;
+        UserModel user = new UserModel();
 
         try {
             PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM [USER] WHERE USER_NAME = ?");
             st.setString(1, userName);
             result = st.executeQuery();
+
+            try {
+                while (result.next()) {
+                    if (password.equals(result.getString("PASSWORD"))) {
+                        user.setName(result.getString("USER_NAME"));
+                        user.setToken(result.getString("TOKEN"));
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("Error getting results: " + e);
+            }
+
         } catch (SQLException e) {
             System.out.println("Error executing Query:" + e);
         }
 
-        return result;
+        return user;
     }
 
 
