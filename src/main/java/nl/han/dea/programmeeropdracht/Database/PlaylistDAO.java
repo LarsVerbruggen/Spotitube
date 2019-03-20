@@ -50,4 +50,14 @@ public class PlaylistDAO {
         return result;
     }
 
+    public void updatePlaylistName(String newName, int id) {
+        try{
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("UPDATE PLAYLIST SET PLAYLIST_NAME = ? WHERE PLAYLIST_ID = ?");
+            st.setString(1, newName);
+            st.setInt(2, id);
+        } catch(SQLException e){
+            System.out.println("Error updating playlist name");
+        }
+
+    }
 }

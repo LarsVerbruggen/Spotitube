@@ -15,7 +15,7 @@ public class LoginDAO {
     }
 
     public UserModel getLoginCredentials(String userName, String password) {
-        ResultSet result = null;
+        ResultSet result;
         UserModel user = new UserModel();
 
         try {
@@ -23,16 +23,13 @@ public class LoginDAO {
             st.setString(1, userName);
             result = st.executeQuery();
 
-            try {
-                while (result.next()) {
-                    if (password.equals(result.getString("PASSWORD"))) {
-                        user.setName(result.getString("USER_NAME"));
-                        user.setToken(result.getString("TOKEN"));
-                    }
+            while (result.next()) {
+                if (password.equals(result.getString("PASSWORD"))) {
+                    user.setName(result.getString("USER_NAME"));
+                    user.setToken(result.getString("TOKEN"));
                 }
-            } catch (SQLException e) {
-                System.out.println("Error getting results: " + e);
             }
+
 
         } catch (SQLException e) {
             System.out.println("Error executing Query:" + e);

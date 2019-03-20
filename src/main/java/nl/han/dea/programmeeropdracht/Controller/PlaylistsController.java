@@ -96,6 +96,15 @@ public class PlaylistsController {
         return Response.ok().entity(trackResponse).build();
     }
 
+    @Path("/{id}")
+    @PUT
+    @Consumes("application/json")
+    public Response updatePlaylistName(Playlist playlist, @QueryParam("token") String token, @PathParam("id") int id){
+        playlistDAO.updatePlaylistName(playlist.getName(), id);
+
+        return getPlaylists(token);
+    }
+
     @Inject
     public void setTrackDAO(TrackDAO trackDAO){
         this.trackDAO = trackDAO;
