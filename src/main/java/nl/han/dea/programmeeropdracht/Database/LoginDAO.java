@@ -8,7 +8,7 @@ import java.sql.*;
 public class LoginDAO {
     private DatabaseConnection dbCon;
 
-
+//
     public LoginDAO() {
         dbCon = new DatabaseConnection();
         dbCon.connectDatabase();
