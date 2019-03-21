@@ -14,39 +14,15 @@ public class PlaylistDAO {
         dbCon.connectDatabase();
     }
 
-    public ResultSet getPlaylists(String token) {
+    public ResultSet getPlaylists() {
         ResultSet result = null;
 
         try {
-            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM PLAYLIST WHERE USER_NAME = ?");
-            st.setString(1, getUserByToken(token));
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT PLAYLIST_ID, USER_NAME, PLAYLIST_NAME FROM PLAYLIST");
             result = st.executeQuery();
         } catch (SQLException e) {
             System.out.println("Error in getting results from playlist: " + e);
         }
-        return result;
-    }
-
-    private String getUserByToken(String token) {
-        ResultSet resultSet = null;
-        String result = null;
-
-        try {
-            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT USER_NAME FROM [USER] WHERE TOKEN = ?");
-            st.setString(1, token);
-            resultSet = st.executeQuery();
-        } catch (SQLException e) {
-            System.out.println("Error in getting results from playlist: " + e);
-        }
-
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getString("USER_NAME");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error getting result from user by token" + e);
-        }
-
         return result;
     }
 

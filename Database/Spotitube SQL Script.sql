@@ -237,8 +237,7 @@ go
 create table PLAYLIST (
    PLAYLIST_ID         ID                   not null,
    USER_NAME            NAME                 null,
-   PLAYLIST_NAME        NAME                 null,
-   OWNER                OWNER                null,
+   PLAYLIST_NAME        NAME                 null
    constraint PK_PLAYLIST primary key (PLAYLIST_ID)
 )
 go

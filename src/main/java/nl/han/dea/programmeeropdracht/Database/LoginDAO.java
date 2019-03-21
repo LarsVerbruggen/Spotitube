@@ -38,5 +38,28 @@ public class LoginDAO {
         return user;
     }
 
+    public String getUserByToken(String token) {
+        ResultSet resultSet = null;
+        String result = null;
+
+        try {
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT USER_NAME FROM [USER] WHERE TOKEN = ?");
+            st.setString(1, token);
+            resultSet = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("Error in getting results from playlist: " + e);
+        }
+
+        try {
+            if (resultSet.next()) {
+                result = resultSet.getString("USER_NAME");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting result from user by token" + e);
+        }
+
+        return result;
+    }
+
 
 }

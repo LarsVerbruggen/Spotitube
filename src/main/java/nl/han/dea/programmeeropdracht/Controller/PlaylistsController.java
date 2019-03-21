@@ -1,5 +1,6 @@
 package nl.han.dea.programmeeropdracht.Controller;
 
+import nl.han.dea.programmeeropdracht.Database.LoginDAO;
 import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
 import nl.han.dea.programmeeropdracht.Database.TrackDAO;
 import nl.han.dea.programmeeropdracht.Playlist;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class PlaylistsController {
     private PlaylistDAO playlistDAO;
     private TrackDAO trackDAO;
+    private LoginDAO loginDAO;
 
     PlaylistsResponse response = new PlaylistsResponse();
 
@@ -27,7 +29,7 @@ public class PlaylistsController {
     public Response getPlaylists(@QueryParam("token") String token) {
 
         int length = 0;
-        ResultSet result = playlistDAO.getPlaylists(token);
+        ResultSet result = playlistDAO.getPlaylists();
         Playlist playlist;
         int playlist_id;
         try {
@@ -35,7 +37,12 @@ public class PlaylistsController {
                 playlist = new Playlist();
                 playlist_id = result.getInt("PLAYLIST_ID");
                 playlist.setId(playlist_id);
-                playlist.setOwner(result.getBoolean("OWNER"));
+                if(loginDAO.getUserByToken(token).equals(result.getString("USER_NAME"))){
+                    playlist.setOwner(true);
+                }else{
+                    playlist.setOwner(false);
+                }
+
                 playlist.setName(result.getString("PLAYLIST_NAME"));
 
                 playlist.setTracks(new ArrayList<>());
@@ -45,7 +52,9 @@ public class PlaylistsController {
                 response.addPlaylist(playlist);
             }
         } catch (SQLException e) {
-            System.out.println("Error with database: " + e);
+            System.out.println("error hier");
+            System.out.println("Error with database" + e);
+
         }
 
         response.setLength(length);
@@ -113,6 +122,11 @@ public class PlaylistsController {
     @Inject
     public void setPlaylistDAO(PlaylistDAO playlistDAO){
         this.playlistDAO = playlistDAO;
+    }
+
+    @Inject
+    public void setLoginDAO(LoginDAO loginDAO){
+        this.loginDAO = loginDAO;
     }
 
 }
