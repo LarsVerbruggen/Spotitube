@@ -52,12 +52,12 @@ public class PlaylistsController {
                 response.addPlaylist(playlist);
             }
         } catch (SQLException e) {
-            System.out.println("error hier");
             System.out.println("Error with database" + e);
 
         }
 
         response.setLength(length);
+
         return Response.ok().entity(response).build();
     }
 

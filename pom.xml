@@ -16,7 +16,6 @@
             <groupId>com.airhacks</groupId>
             <artifactId>jaxrs-cors</artifactId>
             <version>0.0.2</version>
-            <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
         <dependency>
