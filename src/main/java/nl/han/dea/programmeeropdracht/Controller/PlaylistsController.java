@@ -5,6 +5,7 @@ import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
 import nl.han.dea.programmeeropdracht.Database.TrackDAO;
 import nl.han.dea.programmeeropdracht.Playlist;
 import nl.han.dea.programmeeropdracht.Track;
+import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 
@@ -108,8 +109,8 @@ public class PlaylistsController {
     @Path("/{id}")
     @PUT
     @Consumes("application/json")
-    public Response updatePlaylistName(Playlist playlist, @QueryParam("token") String token, @PathParam("id") int id){
-        playlistDAO.updatePlaylistName(playlist.getName(), id);
+    public Response updatePlaylistName(PlaylistRequest request, @QueryParam("token") String token, @PathParam("id") int id){
+        playlistDAO.updatePlaylistName(request.getName(), id);
 
         return getPlaylists(token);
     }
