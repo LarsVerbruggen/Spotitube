@@ -115,6 +115,23 @@ public class PlaylistsController {
         return getPlaylists(token);
     }
 
+    @Path("/")
+    @POST
+    @Consumes("application/json")
+    public Response addPlaylist(Playlist request, @QueryParam("token") String token){
+        playlistDAO.addPlaylist(request, token);
+
+        return getPlaylists(token);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deletePlaylist(@PathParam("id") int id, @QueryParam("token") String token){
+        playlistDAO.deletePlaylist(id);
+
+        return getPlaylists(token);
+    }
+
     @Inject
     public void setTrackDAO(TrackDAO trackDAO){
         this.trackDAO = trackDAO;

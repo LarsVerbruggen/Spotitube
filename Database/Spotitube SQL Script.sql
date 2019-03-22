@@ -235,7 +235,7 @@ go
 /* Table: PLAYLIST                                              */
 /*==============================================================*/
 create table PLAYLIST (
-   PLAYLIST_ID         ID                   not null,
+   PLAYLIST_ID          ID                   IDENTITY(1,1),
    USER_NAME            NAME                 null,
    PLAYLIST_NAME        NAME                 null
    constraint PK_PLAYLIST primary key (PLAYLIST_ID)

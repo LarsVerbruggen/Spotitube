@@ -8,9 +8,10 @@ import nl.han.dea.programmeeropdracht.model.UserModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import javax.ws.rs.core.Response;
+
+import static org.mockito.Mockito.*;
 
 public class LoginControllerTest {
     public static final String USERNAME = "Lars";
@@ -21,13 +22,13 @@ public class LoginControllerTest {
 
     @BeforeEach
     void setup(){
-        loginDaoMock = Mockito.mock(LoginDAO.class);
+        loginDaoMock = mock(LoginDAO.class);
         loginController = new LoginController();
         loginController.setLoginDAO(loginDaoMock);
     }
 
     @Test
-    void doesEndpointDelegateToDAO(){
+    void canLoginWithCorrectCredentials(){
         // Setup
         var dto = new LoginRequest();
         dto.setUser(USERNAME);
@@ -36,15 +37,48 @@ public class LoginControllerTest {
         var user = new UserModel();
         user.setName(USERNAME);
         user.setToken("1312315-wad");
-        Mockito.when(loginDaoMock.getLoginCredentials(USERNAME, PASSWORD)).thenReturn(user);
+        when(loginDaoMock.getLoginCredentials(USERNAME, PASSWORD)).thenReturn(user);
 
         // Test
         Response response = loginController.login(dto);
 
 
         // Verifiy
-        Mockito.verify(loginDaoMock).getLoginCredentials(USERNAME, PASSWORD);
         Assertions.assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    void cantLoginWithWrongCredentials(){
+        // setup
+        var dto = new LoginRequest();
+        dto.setUser("");
+        dto.setPassword("");
+        when(loginDaoMock.getLoginCredentials("", "")).thenReturn(new UserModel());
+        loginController.setLoginDAO(loginDaoMock);
+
+        // Test
+        Response login = loginController.login(dto);
+
+
+        // Verify
+        Assertions.assertEquals(403, login.getStatus());
+    }
+
+    @Test
+    void doesEndpointDelegateToDAO(){
+        // setup
+        var dto = new LoginRequest();
+        dto.setUser("");
+        dto.setPassword("");
+        when(loginDaoMock.getLoginCredentials("", "")).thenReturn(new UserModel());
+        loginController.setLoginDAO(loginDaoMock);
+
+        // Test
+       loginController.login(dto);
+
+
+        // Verify
+        verify(loginDaoMock).getLoginCredentials("", "");
     }
 
 
