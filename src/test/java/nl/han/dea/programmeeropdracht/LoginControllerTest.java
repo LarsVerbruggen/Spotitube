@@ -3,7 +3,6 @@ package nl.han.dea.programmeeropdracht;
 import nl.han.dea.programmeeropdracht.Controller.LoginController;
 import nl.han.dea.programmeeropdracht.Database.LoginDAO;
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;
-import nl.han.dea.programmeeropdracht.dto.LoginResponse;
 import nl.han.dea.programmeeropdracht.model.UserModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class LoginControllerTest {
@@ -25,6 +25,23 @@ public class LoginControllerTest {
         loginDaoMock = mock(LoginDAO.class);
         loginController = new LoginController();
         loginController.setLoginDAO(loginDaoMock);
+    }
+
+    @Test
+    void doesEndpointDelegateToDAO(){
+        // setup
+        var dto = new LoginRequest();
+        dto.setUser("");
+        dto.setPassword("");
+        when(loginDaoMock.getLoginCredentials("", "")).thenReturn(new UserModel());
+
+
+        // Test
+        loginController.login(dto);
+
+
+        // Verify
+        verify(loginDaoMock).getLoginCredentials("", "");
     }
 
     @Test
@@ -44,7 +61,7 @@ public class LoginControllerTest {
 
 
         // Verifiy
-        Assertions.assertEquals(200, response.getStatus());
+        assertEquals(200, response.getStatus());
     }
 
     @Test
@@ -61,24 +78,7 @@ public class LoginControllerTest {
 
 
         // Verify
-        Assertions.assertEquals(403, login.getStatus());
-    }
-
-    @Test
-    void doesEndpointDelegateToDAO(){
-        // setup
-        var dto = new LoginRequest();
-        dto.setUser("");
-        dto.setPassword("");
-        when(loginDaoMock.getLoginCredentials("", "")).thenReturn(new UserModel());
-        loginController.setLoginDAO(loginDaoMock);
-
-        // Test
-       loginController.login(dto);
-
-
-        // Verify
-        verify(loginDaoMock).getLoginCredentials("", "");
+        assertEquals(403, login.getStatus());
     }
 
 

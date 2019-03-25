@@ -1,6 +1,6 @@
-package nl.han.dea.programmeeropdracht;
+package nl.han.dea.programmeeropdracht.model;
 
-public class Track {
+public class TrackModel {
     private int id;
     private String title;
     private String performer;

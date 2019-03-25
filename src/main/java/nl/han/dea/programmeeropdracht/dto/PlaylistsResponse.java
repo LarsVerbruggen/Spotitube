@@ -26,4 +26,8 @@ public class PlaylistsResponse {
     public List<Playlist> getPlaylists() {
         return playlists;
     }
+
+    public void setPlaylist(List<Playlist> playlist) {
+        playlists = playlist;
+    }
 }
