@@ -264,7 +264,6 @@ create table TRACK (
    PLAYCOUNT            PLAYCOUNT            null,
    PUBLICATIONDATE      PUBLICATIONDATE      null,
    DESCRIPTION          DESCRIPTION          null,
-   OFFLINEAVAILABLE     OFFLINEAVAILABLE     null,
    constraint PK_TRACK primary key (TRACK_ID)
 )
 go
@@ -275,6 +274,8 @@ go
 create table TRACK_IN_PLAYLIST (
    TRACK_ID             ID                   not null,
    PLAYLIST_ID         ID                   not null,
+   OFFLINEAVAILABLE		BIT					NOT NULL,
+
    constraint PK_TRACK_IN_PLAYLIST primary key (TRACK_ID, PLAYLIST_ID)
 )
 go

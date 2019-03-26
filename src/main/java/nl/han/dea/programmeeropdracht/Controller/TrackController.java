@@ -7,10 +7,11 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("/")
+@Path("")
 public class TrackController {
 
     private TrackDAO trackDAO;
+
 
     @GET
     @Path("tracks")
@@ -19,6 +20,8 @@ public class TrackController {
         TrackResponse response = trackDAO.getAllTracksNotInPlaylist(playlistID);
         return Response.ok().entity(response).build();
     }
+
+
 
     @Inject
     public void setTrackDAO(TrackDAO trackDAO){

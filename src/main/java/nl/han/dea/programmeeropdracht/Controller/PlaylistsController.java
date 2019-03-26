@@ -32,7 +32,15 @@ public class PlaylistsController {
     @Produces("application/json")
     public Response addTrackToPlaylist(@QueryParam("token") String token, @PathParam("id") int playlistID, TrackModel track){
         trackDAO.addTrackToPlaylist(playlistID, track);
-        return getTracksOfPlaylist(token, playlistID);
+        return Response.ok().entity(track).build();
+    }
+
+    @DELETE
+    @Path("{id}/tracks/{track}")
+    @Produces("application/json")
+    public Response deleteTrackFromPlaylist(@QueryParam("token") String token, @PathParam("id") int playlist_id, @PathParam("track") int track_id){
+        trackDAO.deleteTrackFromPlaylist(playlist_id,track_id);
+        return getTracksOfPlaylist(token, playlist_id);
     }
 
     @GET
