@@ -8,8 +8,6 @@ import nl.han.dea.programmeeropdracht.model.UserModel;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 @Path("/")
 public class LoginController {

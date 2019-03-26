@@ -6,6 +6,7 @@ import nl.han.dea.programmeeropdracht.Playlist;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
 import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
+import nl.han.dea.programmeeropdracht.model.TrackModel;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -17,23 +18,28 @@ public class PlaylistsController {
     private PlaylistDAO playlistDAO;
     private TrackDAO trackDAO;
 
+    @GET
+    @Path("{id}/tracks")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public Response getTracksOfPlaylist(@QueryParam("token") String token, @PathParam("id") int id) {
+        TrackResponse response = trackDAO.getTracksFromPlaylist(id);
+        return Response.ok().entity(response).build();
+    }
+
+    @POST
+    @Path("{id}/tracks")
+    @Produces("application/json")
+    public Response addTrackToPlaylist(@QueryParam("token") String token, @PathParam("id") int playlistID, TrackModel track){
+        trackDAO.addTrackToPlaylist(playlistID, track);
+        return getTracksOfPlaylist(token, playlistID);
+    }
 
     @GET
     @Produces("application/json")
     @Consumes("application/json")
     public Response getPlaylists(@QueryParam("token") String token) {
         PlaylistsResponse response = playlistDAO.getPlaylists(token);
-        return Response.ok().entity(response).build();
-    }
-
-
-
-    @Path("/{id}/tracks")
-    @GET
-    @Produces("application/json")
-    @Consumes("application/json")
-    public Response getTracksOfPlaylist(@QueryParam("token") String token, @PathParam("id") int id) {
-        TrackResponse response = trackDAO.getTracksFromPlaylist(id);
         return Response.ok().entity(response).build();
     }
 
@@ -64,12 +70,12 @@ public class PlaylistsController {
     }
 
     @Inject
-    public void setTrackDAO(TrackDAO trackDAO){
-        this.trackDAO = trackDAO;
-    }
-
-    @Inject
     public void setPlaylistDAO(PlaylistDAO playlistDAO){
         this.playlistDAO = playlistDAO;
     }
+
+    @Inject
+    public void setTrackDAO(TrackDAO trackDAO){
+        this.trackDAO = trackDAO;
     }
+}

@@ -21,23 +21,12 @@ public class TrackDAO {
         ResultSet resultSet;
         TrackResponse tracks = new TrackResponse();
         ArrayList<TrackModel> tracksList = new ArrayList<>();
-        TrackModel track;
 
         try {
             PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM TRACK T INNER JOIN TRACK_IN_PLAYLIST TP ON T.TRACK_ID = TP.TRACK_ID WHERE PLAYLIST_ID = ?");
             st.setInt(1, playlist_id);
             resultSet = st.executeQuery();
-            while (resultSet.next()) {
-                track = new TrackModel();
-                track.setId(resultSet.getInt("TRACK_ID"));
-                track.setTitle(resultSet.getString("TITLE"));
-                track.setPerformer(resultSet.getString("PERFORMER"));
-                track.setDuration(resultSet.getInt("DURATION"));
-                track.setAlbum(resultSet.getString("ALBUM"));
-                track.setPublicationDate(resultSet.getString("DESCRIPTION"));
-                track.setOfflineAvailable(resultSet.getBoolean("OFFLINEAVAILABLE"));
-                tracksList.add(track);
-            }
+            tracksList = addTracksToListFromResultSet(resultSet);
         } catch (SQLException e) {
             System.out.println("Error with getting tracks per playlist" + e);
         }
@@ -45,4 +34,47 @@ public class TrackDAO {
         return tracks;
     }
 
+    public void addTrackToPlaylist(int playlistID, TrackModel track) {
+        try {
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("INSERT INTO TRACK_IN_PLAYLIST (TRACK_ID, PLAYLIST_ID) VALUS(?,?) ");
+            st.setInt(1,track.getId());
+            st.setInt(2,playlistID);
+        } catch (SQLException e) {
+            System.out.println("Error adding track to playlist: " + e);
+        }
+    }
+
+    public TrackResponse getAllTracksNotInPlaylist(int playlist_id) {
+        ResultSet resultSet;
+        TrackResponse tracks = new TrackResponse();
+        ArrayList<TrackModel> tracksList = new ArrayList<>();
+
+        try {
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM TRACK WHERE TRACK_ID NOT IN (SELECT TRACK_ID FROM TRACK_IN_PLAYLIST WHERE PLAYLIST_ID = ?)");
+            st.setInt(1, playlist_id);
+            resultSet = st.executeQuery();
+            tracksList = addTracksToListFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("Error with getting tracks per playlist" + e);
+        }
+        tracks.setTracks(tracksList);
+        return tracks;
+    }
+
+    private ArrayList<TrackModel> addTracksToListFromResultSet(ResultSet resultSet) throws SQLException {
+        TrackModel track;
+        ArrayList<TrackModel> tracksList = new ArrayList<>();
+        while (resultSet.next()) {
+            track = new TrackModel();
+            track.setId(resultSet.getInt("TRACK_ID"));
+            track.setTitle(resultSet.getString("TITLE"));
+            track.setPerformer(resultSet.getString("PERFORMER"));
+            track.setDuration(resultSet.getInt("DURATION"));
+            track.setAlbum(resultSet.getString("ALBUM"));
+            track.setPublicationDate(resultSet.getString("DESCRIPTION"));
+            track.setOfflineAvailable(resultSet.getBoolean("OFFLINEAVAILABLE"));
+            tracksList.add(track);
+        }
+        return tracksList;
+    }
 }
