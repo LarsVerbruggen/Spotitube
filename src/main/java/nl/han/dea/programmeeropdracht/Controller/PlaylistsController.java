@@ -1,14 +1,9 @@
 package nl.han.dea.programmeeropdracht.Controller;
 
-import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
-import nl.han.dea.programmeeropdracht.Database.TrackDAO;
-import nl.han.dea.programmeeropdracht.Playlist;
-import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
+import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
-import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 import nl.han.dea.programmeeropdracht.model.TrackModel;
 import nl.han.dea.programmeeropdracht.services.PlaylistService;
-import nl.han.dea.programmeeropdracht.services.PlaylistServiceImplementatie;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -60,7 +55,7 @@ public class PlaylistsController {
     @Path("/")
     @POST
     @Consumes("application/json")
-    public Response addPlaylist(Playlist request, @QueryParam("token") String token){
+    public Response addPlaylist(PlaylistModel request, @QueryParam("token") String token){
        return service.addPlaylist(request, token);
     }
 

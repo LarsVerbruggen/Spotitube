@@ -1,10 +1,10 @@
 package nl.han.dea.programmeeropdracht;
 
-import nl.han.dea.programmeeropdracht.Controller.PlaylistsController;
 import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
 import nl.han.dea.programmeeropdracht.Database.TrackDAO;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
 
+import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.services.PlaylistServiceImplementatie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ public class PlaylistControllerTest {
 
         // Setup
         var expected = new PlaylistsResponse();
-        var playlist = new Playlist();
+        var playlist = new PlaylistModel();
         var length = 203;
 
         playlist.setOwner(true);

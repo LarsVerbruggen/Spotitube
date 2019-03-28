@@ -1,6 +1,6 @@
 package nl.han.dea.programmeeropdracht.Database;
 
-import nl.han.dea.programmeeropdracht.Playlist;
+import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 
@@ -28,7 +28,7 @@ public class PlaylistDAO {
     public PlaylistsResponse getPlaylists(String token) {
         ResultSet result;
         PlaylistsResponse model = new PlaylistsResponse();
-        Playlist playlist;
+        PlaylistModel playlist;
         int playlist_id;
         int length = 0;
 
@@ -36,7 +36,7 @@ public class PlaylistDAO {
             PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT PLAYLIST_ID, USER_NAME, PLAYLIST_NAME FROM PLAYLIST");
             result = st.executeQuery();
             while (result.next()) {
-                    playlist = new Playlist();
+                    playlist = new PlaylistModel();
                     playlist_id = result.getInt("PLAYLIST_ID");
                     playlist.setId(playlist_id);
                     if(loginDAO.getUserByToken(token).equals(result.getString("USER_NAME"))){
@@ -80,7 +80,7 @@ public class PlaylistDAO {
 
     }
 
-    public void addPlaylist(Playlist request, String token) {
+    public void addPlaylist(PlaylistModel request, String token) {
         String user = loginDAO.getUserByToken(token);
 
         try{

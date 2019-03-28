@@ -1,6 +1,6 @@
 package nl.han.dea.programmeeropdracht.services;
 
-import nl.han.dea.programmeeropdracht.Playlist;
+import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
 import nl.han.dea.programmeeropdracht.model.TrackModel;
 
@@ -12,6 +12,6 @@ public interface PlaylistService {
     Response deleteTrackFromPlaylist(int playlist_id, int track_id);
     Response getPlaylists(String token);
     Response updatePlaylistName(PlaylistRequest request,String token, int id);
-    Response addPlaylist(Playlist request, String token);
+    Response addPlaylist(PlaylistModel request, String token);
     Response deletePlaylist(int id, String token);
 }

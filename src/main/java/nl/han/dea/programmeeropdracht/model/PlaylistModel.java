@@ -1,10 +1,8 @@
-package nl.han.dea.programmeeropdracht;
-
-import nl.han.dea.programmeeropdracht.model.TrackModel;
+package nl.han.dea.programmeeropdracht.model;
 
 import java.util.ArrayList;
 
-public class Playlist {
+public class PlaylistModel {
 
     private int id;
     private String name;

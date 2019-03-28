@@ -2,7 +2,7 @@ package nl.han.dea.programmeeropdracht.services;
 
 import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
 import nl.han.dea.programmeeropdracht.Database.TrackDAO;
-import nl.han.dea.programmeeropdracht.Playlist;
+import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
@@ -49,7 +49,7 @@ public class PlaylistServiceImplementatie implements PlaylistService {
     }
 
     @Override
-    public Response addPlaylist(Playlist request, String token) {
+    public Response addPlaylist(PlaylistModel request, String token) {
         playlistDAO.addPlaylist(request, token);
 
         return getPlaylists(token);

@@ -53,9 +53,8 @@ public class TrackControllerTest {
         var expected = new TrackResponse();
         expected.setTracks(trackList);
         when(trackDaoMock.getTracksFromPlaylist(1)).thenReturn(expected);
+
         // Test
-
-
         Response response = playlistsController.getTracksOfPlaylist(1);
         TrackResponse actual = (TrackResponse) response.getEntity();
 
