@@ -4,6 +4,7 @@ import nl.han.dea.programmeeropdracht.Database.LoginDAO;
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;
 import nl.han.dea.programmeeropdracht.dto.LoginResponse;
 import nl.han.dea.programmeeropdracht.model.UserModel;
+import nl.han.dea.programmeeropdracht.services.TokenGenerator;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -22,11 +23,16 @@ public class LoginController {
         UserModel result = loginDAO.getLoginCredentials(request.getUser(), request.getPassword());
         LoginResponse response = new LoginResponse();
 
-        if(result.getToken() == null){
+        if(result.getName() == null && result.getToken() == null){
+            return Response.status(401).build();
+        }else if( result.getToken() == null){
             return Response.status(403).build();
+        }else{
+            TokenGenerator generator = new TokenGenerator();
+            String token = generator.generateToken();
+            loginDAO.updateToken(result.getName(), token);
+            response.setToken(token);
         }
-
-        response.setToken(result.getToken());
         response.setUser(result.getName());
 
 

@@ -4,7 +4,6 @@ import nl.han.dea.programmeeropdracht.Controller.LoginController;
 import nl.han.dea.programmeeropdracht.Database.LoginDAO;
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;
 import nl.han.dea.programmeeropdracht.model.UserModel;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

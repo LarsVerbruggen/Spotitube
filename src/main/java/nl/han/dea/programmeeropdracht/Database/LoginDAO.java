@@ -62,4 +62,14 @@ public class LoginDAO {
     }
 
 
+    public void updateToken(String name, String token) {
+        try {
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("UPDATE [USER] SET TOKEN= ? WHERE [USER_NAME] = ?");
+            st.setString(1, token);
+            st.setString(2, name);
+            st.execute();
+        } catch (SQLException e) {
+            System.out.println("Error updating token:" + e);
+        }
+    }
 }
