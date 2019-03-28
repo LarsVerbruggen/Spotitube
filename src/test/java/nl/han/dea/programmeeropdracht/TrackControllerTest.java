@@ -6,6 +6,7 @@ import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
 import nl.han.dea.programmeeropdracht.Database.TrackDAO;
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 import nl.han.dea.programmeeropdracht.model.TrackModel;
+import nl.han.dea.programmeeropdracht.services.PlaylistServiceImplementatie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class TrackControllerTest {
 
     PlaylistDAO playlistDaoMock;
-    PlaylistsController playlistsController;
+    PlaylistServiceImplementatie playlistsController;
     TrackController trackController;
     String token;
     TrackDAO trackDaoMock;
@@ -28,7 +29,7 @@ public class TrackControllerTest {
     void setup(){
         playlistDaoMock = mock(PlaylistDAO.class);
         trackDaoMock = mock(TrackDAO.class);
-        playlistsController = new PlaylistsController();
+        playlistsController = new PlaylistServiceImplementatie();
         trackController = new TrackController();
         playlistsController.setPlaylistDAO(playlistDaoMock);
         token = "123132-as";
@@ -55,7 +56,7 @@ public class TrackControllerTest {
         // Test
 
 
-        Response response = playlistsController.getTracksOfPlaylist(token, 1);
+        Response response = playlistsController.getTracksOfPlaylist(1);
         TrackResponse actual = (TrackResponse) response.getEntity();
 
         // Verify

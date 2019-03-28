@@ -11,8 +11,8 @@ import javax.ws.rs.core.Response;
 
 @Path("/")
 public class LoginController {
-    private LoginDAO loginDAO;
 
+    private LoginDAO loginDAO;
 
     @POST
     @Path("login")

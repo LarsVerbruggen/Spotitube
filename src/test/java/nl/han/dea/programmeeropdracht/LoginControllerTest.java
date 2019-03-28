@@ -24,7 +24,7 @@ public class LoginControllerTest {
     void setup(){
         loginDaoMock = mock(LoginDAO.class);
         loginController = new LoginController();
-        loginController.setLoginDAO(loginDaoMock);
+        //loginController.setLoginDAO(loginDaoMock);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class LoginControllerTest {
         dto.setUser("");
         dto.setPassword("");
         when(loginDaoMock.getLoginCredentials("", "")).thenReturn(new UserModel());
-        loginController.setLoginDAO(loginDaoMock);
+        //loginController.setLoginDAO(loginDaoMock);
 
         // Test
         Response login = loginController.login(dto);
