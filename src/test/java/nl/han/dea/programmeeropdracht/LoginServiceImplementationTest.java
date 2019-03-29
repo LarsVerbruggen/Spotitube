@@ -4,6 +4,7 @@ import nl.han.dea.programmeeropdracht.Controller.LoginController;
 import nl.han.dea.programmeeropdracht.Database.LoginDAO;
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;
 import nl.han.dea.programmeeropdracht.model.UserModel;
+import nl.han.dea.programmeeropdracht.services.LoginServiceImplementation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,18 +13,18 @@ import javax.ws.rs.core.Response;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class LoginControllerTest {
+public class LoginServiceImplementationTest {
     private static final String USERNAME = "Lars";
     private static final String PASSWORD = "909090";
 
-    private LoginController loginController;
+    private LoginServiceImplementation loginController;
     private LoginDAO loginDaoMock;
 
     @BeforeEach
     void setup(){
         loginDaoMock = mock(LoginDAO.class);
-        loginController = new LoginController();
-       // loginController.setLoginDAO(loginDaoMock);
+        loginController = new LoginServiceImplementation();
+        loginController.setLoginDAO(loginDaoMock);
     }
 
     @Test
@@ -36,7 +37,7 @@ public class LoginControllerTest {
 
 
         // Test
-        loginController.login(dto);
+        loginController.login(dto.getUser(), dto.getPassword());
 
 
         // Verify
@@ -56,7 +57,7 @@ public class LoginControllerTest {
         when(loginDaoMock.getLoginCredentials(USERNAME, PASSWORD)).thenReturn(user);
 
         // Test
-        Response response = loginController.login(dto);
+        Response response = loginController.login(dto.getUser(), dto.getPassword());
 
 
         // Verifiy
@@ -73,7 +74,7 @@ public class LoginControllerTest {
         when(loginDaoMock.getLoginCredentials("Lars", "1234")).thenReturn(new UserModel());
 
         // Test
-        Response login = loginController.login(dto);
+        Response login = loginController.login(dto.getUser(), dto.getPassword());
 
 
         // Verify

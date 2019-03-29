@@ -1,7 +1,5 @@
 package nl.han.dea.programmeeropdracht.Controller;
 
-import nl.han.dea.programmeeropdracht.Database.TrackDAO;
-import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 import nl.han.dea.programmeeropdracht.services.TrackServiceImplementation;
 
 import javax.inject.Inject;

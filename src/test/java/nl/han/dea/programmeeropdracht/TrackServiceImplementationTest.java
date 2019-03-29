@@ -1,11 +1,11 @@
 package nl.han.dea.programmeeropdracht;
 
-import nl.han.dea.programmeeropdracht.Controller.TrackController;
 import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
 import nl.han.dea.programmeeropdracht.Database.TrackDAO;
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 import nl.han.dea.programmeeropdracht.model.TrackModel;
 import nl.han.dea.programmeeropdracht.services.PlaylistServiceImplementation;
+import nl.han.dea.programmeeropdracht.services.TrackServiceImplementation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,14 +13,14 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-public class TrackControllerTest {
+public class TrackServiceImplementationTest {
 
+    public static final int PLAYLIST_ID = 1;
     PlaylistDAO playlistDaoMock;
-    PlaylistServiceImplementation playlistsController;
-    TrackController trackController;
+    PlaylistServiceImplementation playlistService;
+    TrackServiceImplementation trackService;
     String token;
     TrackDAO trackDaoMock;
 
@@ -28,10 +28,24 @@ public class TrackControllerTest {
     void setup(){
         playlistDaoMock = mock(PlaylistDAO.class);
         trackDaoMock = mock(TrackDAO.class);
-        playlistsController = new PlaylistServiceImplementation();
-        trackController = new TrackController();
-        playlistsController.setPlaylistDAO(playlistDaoMock);
+        playlistService = new PlaylistServiceImplementation();
+        trackService = new TrackServiceImplementation();
+        playlistService.setPlaylistDAO(playlistDaoMock);
+        playlistService.setTrackDAO(trackDaoMock);
+        trackService.setTrackDAO(trackDaoMock);
         token = "123132-as";
+    }
+
+    @Test
+    void doesEndpointDelegateToDAO(){
+        // Setup
+        when(trackDaoMock.getAllTracksNotInPlaylist(PLAYLIST_ID)).thenReturn(new TrackResponse());
+
+        // Test
+        trackService.getAllTracks(PLAYLIST_ID);
+
+        verify(trackDaoMock).getAllTracksNotInPlaylist(PLAYLIST_ID);
+
     }
 
     @Test
@@ -51,10 +65,10 @@ public class TrackControllerTest {
 
         var expected = new TrackResponse();
         expected.setTracks(trackList);
-        when(trackDaoMock.getTracksFromPlaylist(1)).thenReturn(expected);
+        when(trackDaoMock.getAllTracksNotInPlaylist(1)).thenReturn(expected);
 
         // Test
-        Response response = playlistsController.getTracksOfPlaylist(1);
+        Response response = trackService.getAllTracks(1);
         TrackResponse actual = (TrackResponse) response.getEntity();
 
         // Verify
