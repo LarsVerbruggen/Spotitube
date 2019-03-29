@@ -5,7 +5,7 @@ import nl.han.dea.programmeeropdracht.model.TrackModel;
 import java.util.ArrayList;
 
 public class TrackResponse {
-    private ArrayList<TrackModel> tracks;
+    private ArrayList<TrackModel> tracks = new ArrayList<>();
 
     public ArrayList<TrackModel> getTracks() {
         return tracks;

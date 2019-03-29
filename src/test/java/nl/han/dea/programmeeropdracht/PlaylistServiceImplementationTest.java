@@ -11,6 +11,9 @@ import nl.han.dea.programmeeropdracht.services.PlaylistServiceImplementation;
 import nl.han.dea.programmeeropdracht.services.TrackServiceImplementation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 
 import javax.ws.rs.core.Response;
@@ -33,11 +36,12 @@ public class PlaylistServiceImplementationTest {
     void setup(){
         playlistDaoMock = mock(PlaylistDAO.class);
         trackDaoMock = mock(TrackDAO.class);
+        trackService = new TrackServiceImplementation();
         playlistService = new PlaylistServiceImplementation();
         playlistService.setPlaylistDAO(playlistDaoMock);
         playlistService.setTrackDAO(trackDaoMock);
         token = "123132-as";
-        trackService = new TrackServiceImplementation();
+
     }
 
     @Test
@@ -63,7 +67,7 @@ public class PlaylistServiceImplementationTest {
         track.setAlbum("Mooi album");
         track.setDuration(256);
         track.setOfflineAvailable(true);
-        track.setPerformer("Freedom Call");
+        track.setPerformer("Goede band");
         track.setPublicationDate("02-05-2015");
         track.setDescription("Goed lied");
         track.setPlaycount(100);
@@ -81,10 +85,57 @@ public class PlaylistServiceImplementationTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void doesEndpointAddTrackToPlaylist(){
+        // Setup
+        var track = new TrackModel();
+        track.setId(1);
+        track.setTitle("Mooi lied");
+        track.setAlbum("Mooi album");
+        track.setDuration(256);
+        track.setOfflineAvailable(true);
+        track.setPerformer("Goede band");
+        track.setPublicationDate("02-05-2015");
+        track.setDescription("Goed lied");
+        track.setPlaycount(100);
+
+        doAnswer(invocationOnMock -> track).when(trackDaoMock).addTrackToPlaylist(1, track);
+
+        // test
+        Response response = playlistService.addTrackToPlaylist(1, track);
+        TrackModel actual = (TrackModel) response.getEntity();
+
+        // Verify
+        assertEquals(track, actual);
+
+    }
+
+    @Test
+    void doesEndpointDeleteTracksFromPlaylist(){
+        // Setup
+        var expected = new TrackResponse();
+        var track = new TrackModel();
+        var actual = new TrackResponse();
+        track.setId(1);
+        track.setTitle("Mooi lied");
+        track.setAlbum("Mooi album");
+        track.setDuration(256);
+        track.setOfflineAvailable(true);
+        track.setPerformer("Goede band");
+        track.setPublicationDate("02-05-2015");
+        track.setDescription("Goed lied");
+        track.setPlaycount(100);
+
+        actual.addTrack(track);
+
+        doAnswer(invocationOnMock -> actual.getTracks().remove(0)).when(trackDaoMock).deleteTrackFromPlaylist(1,1);
+        // Test
+        playlistService.deleteTrackFromPlaylist(1, 1);
 
 
-
-
+        // Verify
+        assertEquals(expected.getTracks(), actual.getTracks());
+    }
 
     @Test
     void doesEndpointReturnPlaylists(){

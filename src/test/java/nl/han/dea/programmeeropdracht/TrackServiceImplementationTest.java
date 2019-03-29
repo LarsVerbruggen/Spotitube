@@ -58,7 +58,7 @@ public class TrackServiceImplementationTest {
         track.setAlbum("Mooi album");
         track.setDuration(256);
         track.setOfflineAvailable(true);
-        track.setPerformer("Freedom Call");
+        track.setPerformer("Goede band");
         track.setPublicationDate("02-05-2015");
         track.setDescription("Goed lied");
         track.setPlaycount(100);
