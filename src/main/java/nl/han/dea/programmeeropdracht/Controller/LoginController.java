@@ -4,11 +4,11 @@ import nl.han.dea.programmeeropdracht.Database.LoginDAO;
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;
 import nl.han.dea.programmeeropdracht.dto.LoginResponse;
 import nl.han.dea.programmeeropdracht.model.UserModel;
-import nl.han.dea.programmeeropdracht.services.TokenGenerator;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.UUID;
 
 @Path("/")
 public class LoginController {
@@ -28,13 +28,11 @@ public class LoginController {
         }else if( result.getToken() == null){
             return Response.status(403).build();
         }else{
-            TokenGenerator generator = new TokenGenerator();
-            String token = generator.generateToken();
+            String token = UUID.randomUUID().toString();
             loginDAO.updateToken(result.getName(), token);
             response.setToken(token);
         }
         response.setUser(result.getName());
-
 
         return Response.ok(response).build();
     }

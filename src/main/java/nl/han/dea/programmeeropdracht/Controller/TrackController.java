@@ -12,7 +12,6 @@ public class TrackController {
 
     private TrackDAO trackDAO;
 
-
     @GET
     @Path("tracks")
     @Produces("application/json")

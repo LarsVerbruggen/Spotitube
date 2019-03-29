@@ -16,7 +16,6 @@ public class PlaylistServiceImplementatie implements PlaylistService {
     private PlaylistDAO playlistDAO;
     private TrackDAO trackDAO;
 
-
     @Override
     public Response getTracksOfPlaylist(int id) {
         TrackResponse response = trackDAO.getTracksFromPlaylist(id);

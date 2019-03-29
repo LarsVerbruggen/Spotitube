@@ -1,6 +1,5 @@
 package nl.han.dea.programmeeropdracht.Database;
 
-
 import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;

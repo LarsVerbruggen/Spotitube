@@ -1,8 +1,6 @@
 package nl.han.dea.programmeeropdracht.Database;
 
 import nl.han.dea.programmeeropdracht.model.UserModel;
-
-import javax.ws.rs.core.Response;
 import java.sql.*;
 
 public class LoginDAO {

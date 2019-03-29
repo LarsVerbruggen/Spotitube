@@ -23,7 +23,7 @@ public class LoginControllerTest {
     void setup(){
         loginDaoMock = mock(LoginDAO.class);
         loginController = new LoginController();
-        //loginController.setLoginDAO(loginDaoMock);
+        loginController.setLoginDAO(loginDaoMock);
     }
 
     @Test
