@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class LoginControllerTest {
-    public static final String USERNAME = "Lars";
-    public static final String PASSWORD = "909090";
+    private static final String USERNAME = "Lars";
+    private static final String PASSWORD = "909090";
 
     private LoginController loginController;
     private LoginDAO loginDaoMock;
@@ -23,7 +23,7 @@ public class LoginControllerTest {
     void setup(){
         loginDaoMock = mock(LoginDAO.class);
         loginController = new LoginController();
-        loginController.setLoginDAO(loginDaoMock);
+       // loginController.setLoginDAO(loginDaoMock);
     }
 
     @Test
@@ -67,17 +67,17 @@ public class LoginControllerTest {
     void cantLoginWithWrongCredentials(){
         // setup
         var dto = new LoginRequest();
-        dto.setUser("");
-        dto.setPassword("");
-        when(loginDaoMock.getLoginCredentials("", "")).thenReturn(new UserModel());
-        //loginController.setLoginDAO(loginDaoMock);
+        dto.setUser("Lars");
+        dto.setPassword("1234");
+
+        when(loginDaoMock.getLoginCredentials("Lars", "1234")).thenReturn(new UserModel());
 
         // Test
         Response login = loginController.login(dto);
 
 
         // Verify
-        assertEquals(403, login.getStatus());
+        assertEquals(401, login.getStatus());
     }
 
 

@@ -11,7 +11,7 @@ import nl.han.dea.programmeeropdracht.model.TrackModel;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
-public class PlaylistServiceImplementatie implements PlaylistService {
+public class PlaylistServiceImplementation implements PlaylistService {
 
     private PlaylistDAO playlistDAO;
     private TrackDAO trackDAO;
