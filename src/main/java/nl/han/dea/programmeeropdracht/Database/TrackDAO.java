@@ -52,7 +52,7 @@ public class TrackDAO {
         ArrayList<TrackModel> tracksList = new ArrayList<>();
 
         try {
-            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM TRACK T INNER JOIN TRACK_IN_PLAYLIST TIP ON T.TRACK_ID = TIP.TRACK_ID WHERE T.TRACK_ID NOT IN (SELECT TRACK_ID FROM TRACK_IN_PLAYLIST WHERE PLAYLIST_ID = ?)");
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM TRACK T LEFT JOIN TRACK_IN_PLAYLIST TIP ON T.TRACK_ID = TIP.TRACK_ID WHERE T.TRACK_ID NOT IN (SELECT TRACK_ID FROM TRACK_IN_PLAYLIST WHERE PLAYLIST_ID = ?)");
             st.setInt(1, playlist_id);
             resultSet = st.executeQuery();
             tracksList = addTracksToListFromResultSet(resultSet);
