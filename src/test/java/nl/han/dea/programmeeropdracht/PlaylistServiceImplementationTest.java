@@ -2,6 +2,7 @@ package nl.han.dea.programmeeropdracht;
 
 import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
 import nl.han.dea.programmeeropdracht.Database.TrackDAO;
+import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
 
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
@@ -138,6 +139,29 @@ public class PlaylistServiceImplementationTest {
     }
 
     @Test
+    void doesEndpointUpdatePlaylistName(){
+        // Setup
+        var request = new PlaylistRequest();
+        request.setName("Metal");
+
+        var expected = new PlaylistModel();
+        expected.setName("Metal");
+        var actual = new PlaylistModel();
+        actual.setName("Pop");
+
+        doAnswer(invocationOnMock -> {
+             actual.setName("Metal");
+             return actual;
+        }).when(playlistDaoMock).updatePlaylistName("Metal", 1);
+
+        // Test
+        playlistService.updatePlaylistName(request, token, 1);
+
+        // Verify
+        assertEquals(expected.getName(), actual.getName());
+    }
+
+    @Test
     void doesEndpointReturnPlaylists(){
 
         // Setup
@@ -161,7 +185,29 @@ public class PlaylistServiceImplementationTest {
 
         // Verify
         assertEquals(expected,actual);
+    }
 
+    @Test
+    void doesEndpointAddPlaylist(){
+        // Setup
+        var expected = new PlaylistsResponse();
+        var add = new PlaylistModel();
+        var actual = new PlaylistsResponse();
+        add.setName("Lars");
+        add.setId(1);
+        add.setOwner(true);
+        expected.addPlaylist(add);
+
+        doAnswer(invocationOnMock -> {
+            actual.addPlaylist(add);
+            return actual;
+        }).when(playlistDaoMock).addPlaylist(add, token);
+
+        // Test
+        playlistService.addPlaylist(add, token);
+
+        // Verify
+        assertEquals(expected.getPlaylists(), actual.getPlaylists());
     }
 
 }

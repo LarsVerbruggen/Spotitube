@@ -43,7 +43,6 @@ public class PlaylistServiceImplementation implements PlaylistService {
     @Override
     public Response updatePlaylistName(PlaylistRequest request, String token, int id) {
         playlistDAO.updatePlaylistName(request.getName(), id);
-
         return getPlaylists(token);
     }
 
