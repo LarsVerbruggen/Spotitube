@@ -1,6 +1,5 @@
 package nl.han.dea.programmeeropdracht;
 
-import nl.han.dea.programmeeropdracht.Controller.LoginController;
 import nl.han.dea.programmeeropdracht.Database.LoginDAO;
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;
 import nl.han.dea.programmeeropdracht.model.UserModel;
@@ -17,14 +16,14 @@ public class LoginServiceImplementationTest {
     private static final String USERNAME = "Lars";
     private static final String PASSWORD = "909090";
 
-    private LoginServiceImplementation loginController;
+    private LoginServiceImplementation loginService;
     private LoginDAO loginDaoMock;
 
     @BeforeEach
     void setup(){
         loginDaoMock = mock(LoginDAO.class);
-        loginController = new LoginServiceImplementation();
-        loginController.setLoginDAO(loginDaoMock);
+        loginService = new LoginServiceImplementation();
+        loginService.setLoginDAO(loginDaoMock);
     }
 
     @Test
@@ -37,7 +36,7 @@ public class LoginServiceImplementationTest {
 
 
         // Test
-        loginController.login(dto.getUser(), dto.getPassword());
+        loginService.login(dto.getUser(), dto.getPassword());
 
 
         // Verify
@@ -57,7 +56,7 @@ public class LoginServiceImplementationTest {
         when(loginDaoMock.getLoginCredentials(USERNAME, PASSWORD)).thenReturn(user);
 
         // Test
-        Response response = loginController.login(dto.getUser(), dto.getPassword());
+        Response response = loginService.login(dto.getUser(), dto.getPassword());
 
 
         // Verifiy
@@ -74,7 +73,7 @@ public class LoginServiceImplementationTest {
         when(loginDaoMock.getLoginCredentials("Lars", "1234")).thenReturn(new UserModel());
 
         // Test
-        Response login = loginController.login(dto.getUser(), dto.getPassword());
+        Response login = loginService.login(dto.getUser(), dto.getPassword());
 
 
         // Verify
