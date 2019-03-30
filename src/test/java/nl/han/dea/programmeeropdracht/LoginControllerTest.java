@@ -1,7 +1,6 @@
 package nl.han.dea.programmeeropdracht;
 
 import nl.han.dea.programmeeropdracht.Controller.LoginController;
-import nl.han.dea.programmeeropdracht.Database.LoginDAO;
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;
 import nl.han.dea.programmeeropdracht.services.LoginServiceImplementation;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class LoginControllerTest {

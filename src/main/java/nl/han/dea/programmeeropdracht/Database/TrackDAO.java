@@ -26,7 +26,11 @@ public class TrackDAO {
             PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM TRACK T INNER JOIN TRACK_IN_PLAYLIST TP ON T.TRACK_ID = TP.TRACK_ID WHERE PLAYLIST_ID = ?");
             st.setInt(1, playlist_id);
             resultSet = st.executeQuery();
-            tracksList = addTracksToListFromResultSet(resultSet);
+            while (resultSet.next()) {
+                TrackModel track = turnResultSetToTrackModel(resultSet);
+                track.setOfflineAvailable(resultSet.getBoolean("OFFLINEAVAILABLE"));
+                tracksList.add(track);
+            }
         } catch (SQLException e) {
             System.out.println("Error with getting tracks per playlist" + e);
         }
@@ -52,10 +56,14 @@ public class TrackDAO {
         ArrayList<TrackModel> tracksList = new ArrayList<>();
 
         try {
-            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT * FROM TRACK T LEFT JOIN TRACK_IN_PLAYLIST TIP ON T.TRACK_ID = TIP.TRACK_ID WHERE T.TRACK_ID NOT IN (SELECT TRACK_ID FROM TRACK_IN_PLAYLIST WHERE PLAYLIST_ID = ?)");
+            PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT DISTINCT T.* FROM TRACK T LEFT JOIN TRACK_IN_PLAYLIST TIP ON T.TRACK_ID = TIP.TRACK_ID WHERE T.TRACK_ID NOT IN (SELECT TRACK_ID FROM TRACK_IN_PLAYLIST WHERE PLAYLIST_ID = ?)");
             st.setInt(1, playlist_id);
-            resultSet = st.executeQuery();
-            tracksList = addTracksToListFromResultSet(resultSet);
+            resultSet = st.executeQuery();TrackModel track;
+            System.out.println(resultSet);
+            while (resultSet.next()) {
+                track = turnResultSetToTrackModel(resultSet);
+                tracksList.add(track);
+            }
         } catch (SQLException e) {
             System.out.println("Error with getting tracks per playlist" + e);
         }
@@ -63,21 +71,16 @@ public class TrackDAO {
         return tracks;
     }
 
-    private ArrayList<TrackModel> addTracksToListFromResultSet(ResultSet resultSet) throws SQLException {
+    private TrackModel turnResultSetToTrackModel(ResultSet resultSet) throws SQLException {
         TrackModel track;
-        ArrayList<TrackModel> tracksList = new ArrayList<>();
-        while (resultSet.next()) {
-            track = new TrackModel();
-            track.setId(resultSet.getInt("TRACK_ID"));
-            track.setTitle(resultSet.getString("TITLE"));
-            track.setPerformer(resultSet.getString("PERFORMER"));
-            track.setDuration(resultSet.getInt("DURATION"));
-            track.setAlbum(resultSet.getString("ALBUM"));
-            track.setPublicationDate(resultSet.getString("DESCRIPTION"));
-            track.setOfflineAvailable(resultSet.getBoolean("OFFLINEAVAILABLE"));
-            tracksList.add(track);
-        }
-        return tracksList;
+        track = new TrackModel();
+        track.setId(resultSet.getInt("TRACK_ID"));
+        track.setTitle(resultSet.getString("TITLE"));
+        track.setPerformer(resultSet.getString("PERFORMER"));
+        track.setDuration(resultSet.getInt("DURATION"));
+        track.setAlbum(resultSet.getString("ALBUM"));
+        track.setPublicationDate(resultSet.getString("DESCRIPTION"));
+        return track;
     }
 
     public void deleteTrackFromPlaylist(int playlist_id, int track_id) {
