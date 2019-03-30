@@ -9,14 +9,18 @@ import javax.ws.rs.core.Response;
 @Path("")
 public class TrackController {
 
-    @Inject
-    private TrackServiceImplementation service;
+    TrackServiceImplementation service;
 
     @GET
     @Path("tracks")
     @Produces("application/json")
     public Response getAllTracks(@QueryParam("token") String token, @QueryParam("forPlaylist") int playlistID){
         return service.getAllTracks(playlistID);
+    }
+
+    @Inject
+    public void setService(TrackServiceImplementation service){
+        this.service = service;
     }
 
 
