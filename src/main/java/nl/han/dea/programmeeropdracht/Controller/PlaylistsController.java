@@ -3,7 +3,9 @@ package nl.han.dea.programmeeropdracht.Controller;
 import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
 import nl.han.dea.programmeeropdracht.model.TrackModel;
+import nl.han.dea.programmeeropdracht.services.LoginService;
 import nl.han.dea.programmeeropdracht.services.PlaylistService;
+import nl.han.dea.programmeeropdracht.services.TokenService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -15,6 +17,9 @@ public class PlaylistsController {
 
     @Inject
     PlaylistService service;
+
+    @Inject
+    TokenService tokenService;
 
     @GET
     @Path("{id}/tracks")
@@ -42,7 +47,8 @@ public class PlaylistsController {
     @Produces("application/json")
     @Consumes("application/json")
     public Response getPlaylists(@QueryParam("token") String token) {
-       return service.getPlaylists(token);
+        String username = tokenService.getUserByToken(token);
+       return service.getPlaylists(username);
     }
 
     @Path("/{id}")
@@ -56,13 +62,15 @@ public class PlaylistsController {
     @POST
     @Consumes("application/json")
     public Response addPlaylist(PlaylistModel request, @QueryParam("token") String token){
-       return service.addPlaylist(request, token);
+        String username = tokenService.getUserByToken(token);
+       return service.addPlaylist(request, username);
     }
 
     @DELETE
     @Path("/{id}")
     public Response deletePlaylist(@PathParam("id") int id, @QueryParam("token") String token){
-        return service.deletePlaylist(id, token);
+        String username = tokenService.getUserByToken(token);
+        return service.deletePlaylist(id, username);
     }
 
 

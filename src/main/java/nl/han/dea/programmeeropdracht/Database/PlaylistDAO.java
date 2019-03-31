@@ -24,7 +24,7 @@ public class PlaylistDAO {
         dbCon.connectDatabase();
     }
 
-    public PlaylistsResponse getPlaylists(String token) {
+    public PlaylistsResponse getPlaylists(String user) {
         ResultSet result;
         PlaylistsResponse model = new PlaylistsResponse();
         PlaylistModel playlist;
@@ -38,7 +38,7 @@ public class PlaylistDAO {
                     playlist = new PlaylistModel();
                     playlist_id = result.getInt("PLAYLIST_ID");
                     playlist.setId(playlist_id);
-                    if(loginDAO.getUserByToken(token).equals(result.getString("USER_NAME"))){
+                    if(user.equals(result.getString("USER_NAME"))){
                         playlist.setOwner(true);
                     }else{
                         playlist.setOwner(false);
@@ -79,8 +79,7 @@ public class PlaylistDAO {
 
     }
 
-    public void addPlaylist(PlaylistModel request, String token) {
-        String user = loginDAO.getUserByToken(token);
+    public void addPlaylist(PlaylistModel request, String user) {
 
         try{
             PreparedStatement st = dbCon.getDbCon().prepareStatement("INSERT INTO PLAYLIST (USER_NAME, PLAYLIST_NAME) VALUES (?,?)");

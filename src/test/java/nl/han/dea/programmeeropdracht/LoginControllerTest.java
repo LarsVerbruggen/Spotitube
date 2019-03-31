@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import javax.ws.rs.core.Response;
 
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginControllerTest {
 
@@ -30,13 +31,13 @@ public class LoginControllerTest {
     @Test
     void doesLoginControllerMakeUseOfService(){
         // Setup
-        when(service.login(any(), any())).thenReturn(Response.ok().build());
+        when(service.login(request.getUser(), request.getPassword())).thenReturn(Response.ok().build());
 
         // Test
-        controller.login(request);
+        Response actual = controller.login(request);
 
-        // Verify
-        verify(service).login(request.getUser(), request.getPassword());
+//        // Verify
+        assertEquals(200, actual.getStatus() );
     }
 
 }

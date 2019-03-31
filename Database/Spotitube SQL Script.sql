@@ -324,5 +324,6 @@ go
 alter table TRACK_IN_PLAYLIST
    add constraint FK_TRACK_IN_TRACK_IN__PLAYLIST foreign key (PLAYLIST_ID)
       references PLAYLIST (PLAYLIST_ID)
+	  ON UPDATE CASCADE
+	  ON DELETE CASCADE
 go
-

@@ -35,8 +35,8 @@ public class PlaylistServiceImplementation implements PlaylistService {
     }
 
     @Override
-    public Response getPlaylists(String token) {
-        PlaylistsResponse response = playlistDAO.getPlaylists(token);
+    public Response getPlaylists(String user) {
+        PlaylistsResponse response = playlistDAO.getPlaylists(user);
         return Response.ok().entity(response).build();
     }
 
@@ -47,17 +47,17 @@ public class PlaylistServiceImplementation implements PlaylistService {
     }
 
     @Override
-    public Response addPlaylist(PlaylistModel request, String token) {
-        playlistDAO.addPlaylist(request, token);
+    public Response addPlaylist(PlaylistModel request, String username) {
+        playlistDAO.addPlaylist(request, username);
 
-        return getPlaylists(token);
+        return getPlaylists(username);
     }
 
     @Override
-    public Response deletePlaylist(int id, String token) {
+    public Response deletePlaylist(int id, String username) {
         playlistDAO.deletePlaylist(id);
 
-        return getPlaylists(token);
+        return getPlaylists(username);
     }
     @Inject
     public void setPlaylistDAO(PlaylistDAO playlistDAO){
