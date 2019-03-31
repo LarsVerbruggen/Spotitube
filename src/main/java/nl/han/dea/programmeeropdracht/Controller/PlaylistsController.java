@@ -15,11 +15,10 @@ import javax.ws.rs.core.Response;
 @Path("playlists")
 public class PlaylistsController {
 
-    @Inject
     PlaylistService service;
 
-    @Inject
     TokenService tokenService;
+
 
     @GET
     @Path("{id}/tracks")
@@ -72,6 +71,19 @@ public class PlaylistsController {
         String username = tokenService.getUserByToken(token);
         return service.deletePlaylist(id, username);
     }
+
+
+    @Inject
+    public void setService(PlaylistService service){
+        this.service = service;
+    }
+
+
+    @Inject
+    public void setTokenService(TokenService tokenService){
+        this.tokenService = tokenService;
+    }
+
 
 
 }
