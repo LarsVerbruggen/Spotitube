@@ -1,7 +1,7 @@
 package nl.han.dea.programmeeropdracht.services;
 
-import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
+import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.model.TrackModel;
 
 import javax.ws.rs.core.Response;

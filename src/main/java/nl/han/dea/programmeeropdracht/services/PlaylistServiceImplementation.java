@@ -2,10 +2,10 @@ package nl.han.dea.programmeeropdracht.services;
 
 import nl.han.dea.programmeeropdracht.Database.PlaylistDAO;
 import nl.han.dea.programmeeropdracht.Database.TrackDAO;
-import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
 import nl.han.dea.programmeeropdracht.dto.PlaylistsResponse;
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
+import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.model.TrackModel;
 
 import javax.inject.Inject;

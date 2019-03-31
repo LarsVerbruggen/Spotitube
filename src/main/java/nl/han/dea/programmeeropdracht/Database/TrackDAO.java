@@ -3,7 +3,6 @@ package nl.han.dea.programmeeropdracht.Database;
 import nl.han.dea.programmeeropdracht.dto.TrackResponse;
 import nl.han.dea.programmeeropdracht.model.TrackModel;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

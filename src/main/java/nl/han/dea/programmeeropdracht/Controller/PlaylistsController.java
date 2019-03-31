@@ -3,7 +3,6 @@ package nl.han.dea.programmeeropdracht.Controller;
 import nl.han.dea.programmeeropdracht.model.PlaylistModel;
 import nl.han.dea.programmeeropdracht.dto.PlaylistRequest;
 import nl.han.dea.programmeeropdracht.model.TrackModel;
-import nl.han.dea.programmeeropdracht.services.LoginService;
 import nl.han.dea.programmeeropdracht.services.PlaylistService;
 import nl.han.dea.programmeeropdracht.services.TokenService;
 

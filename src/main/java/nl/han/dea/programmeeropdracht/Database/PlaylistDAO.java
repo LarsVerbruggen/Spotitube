@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class PlaylistDAO {
 
     private DatabaseConnection dbCon;
-    private LoginDAO loginDAO;
     private TrackDAO trackDAO;
 
 
@@ -99,11 +98,6 @@ public class PlaylistDAO {
         }catch (SQLException e){
             System.out.println("Error deleting playlist:" + e);
         }
-    }
-
-    @Inject
-    public void setLoginDAO(LoginDAO loginDAO){
-        this.loginDAO = loginDAO;
     }
 
     @Inject
