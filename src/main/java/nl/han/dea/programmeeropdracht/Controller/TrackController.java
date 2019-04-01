@@ -1,6 +1,6 @@
 package nl.han.dea.programmeeropdracht.Controller;
 
-import nl.han.dea.programmeeropdracht.services.TrackServiceImplementation;
+import nl.han.dea.programmeeropdracht.services.TrackService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 @Path("")
 public class TrackController {
 
-    TrackServiceImplementation service;
+    TrackService service;
 
     @GET
     @Path("tracks")
@@ -19,7 +19,7 @@ public class TrackController {
     }
 
     @Inject
-    public void setService(TrackServiceImplementation service){
+    public void setService(TrackService service){
         this.service = service;
     }
 

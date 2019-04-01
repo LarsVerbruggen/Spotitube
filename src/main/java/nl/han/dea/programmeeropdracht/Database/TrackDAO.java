@@ -57,8 +57,8 @@ public class TrackDAO {
         try {
             PreparedStatement st = dbCon.getDbCon().prepareStatement("SELECT DISTINCT T.* FROM TRACK T LEFT JOIN TRACK_IN_PLAYLIST TIP ON T.TRACK_ID = TIP.TRACK_ID WHERE T.TRACK_ID NOT IN (SELECT TRACK_ID FROM TRACK_IN_PLAYLIST WHERE PLAYLIST_ID = ?)");
             st.setInt(1, playlist_id);
-            resultSet = st.executeQuery();TrackModel track;
-            System.out.println(resultSet);
+            resultSet = st.executeQuery();
+            TrackModel track;
             while (resultSet.next()) {
                 track = turnResultSetToTrackModel(resultSet);
                 tracksList.add(track);
@@ -79,6 +79,7 @@ public class TrackDAO {
         track.setDuration(resultSet.getInt("DURATION"));
         track.setAlbum(resultSet.getString("ALBUM"));
         track.setPublicationDate(resultSet.getString("DESCRIPTION"));
+        track.setPlaycount(resultSet.getInt("PLAYCOUNT"));
         return track;
     }
 

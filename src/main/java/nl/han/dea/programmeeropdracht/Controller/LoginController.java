@@ -1,7 +1,7 @@
 package nl.han.dea.programmeeropdracht.Controller;
 
 import nl.han.dea.programmeeropdracht.dto.LoginRequest;
-import nl.han.dea.programmeeropdracht.services.LoginServiceImplementation;
+import nl.han.dea.programmeeropdracht.services.LoginService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class LoginController {
 
-    LoginServiceImplementation service;
+    LoginService service;
 
     @POST
     @Path("login")
@@ -21,7 +21,7 @@ public class LoginController {
     }
 
     @Inject
-    public void setLoginService(LoginServiceImplementation service){
+    public void setLoginService(LoginService service){
         this.service = service;
     }
 
